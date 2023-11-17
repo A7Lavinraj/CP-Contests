@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+#ifdef DEBUG
+#include "/home/lavinraj/career/cp/code-library/debug.cpp"
+#else
+#define dbg(x...)
+#endif
+#define len(x) int((x).size())
+
+using namespace std;
+
+const int INF = 1e9 + 7;
+
+void solve() {
+  int N;
+  cin >> N;
+  vector<int> v(N);
+
+  for (int i = 0; i < N; i++)
+    cin >> v[i];
+
+  auto max_sum = [&](int start, int end) -> int {
+    int ans = -INF, maxSoFar = -INF;
+
+    for (int i = start; i < end; i++) {
+      maxSoFar = max(v[i], maxSoFar + v[i]);
+      ans = max(ans, maxSoFar);
+    }
+
+    return ans;
+  };
+
+  vector<int> pref_max(N);
+  int temp = -INF, msf = -INF;
+
+  for (int i = 0; i < N; i++) {
+    msf = max(v[i], msf + v[i]);
+    temp = max(temp, msf);
+    pref_max[i] = temp;
+  }
+
+  int start = 0, end = 0, ans = INT_MIN;
+
+  while(end < N) {
+    if (end + 1 == N) {
+      ans = max(ans, max_sum(start, end + 1));
+      break;
+    }
+
+
+    if (abs(v[end] % 2) == abs(v[end + 1] % 2)) {
+      ans = max(ans, max_sum(start, end + 1));
+      start = end = end + 1;
+    }
+    else {
+      ans = max(ans, max_sum(start, end + 1));
+      end++;
+    }
+  }
+
+  cout << ans << '\n';
+}
+
+int main() { 
+  ios_base::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int t = 1;
+  cin >> t;
+  while(t--) {
+    solve();
+  }
+  return 0;
+}
