@@ -16,22 +16,16 @@ void solve() {
   for (int i = 0; i < N; i++)
     cin >> v[i];
 
-  int minimum = *min_element(v.begin(), v.end());
+  int min_index = min_element(v.begin(), v.end()) - v.begin();
 
-
-  for (int i = 0; i < N; i++) {
-    if (v[i] == minimum) {
-      for (int j = i; j < N - 1; j++) {
-        if (v[j] > v[j + 1]) {
-          cout << -1 << '\n';
-          return;
-        }
-      }
-
-      cout << i << '\n';
+  for (int i = min_index; i < N - 1; i++) {
+    if (v[i] > v[i + 1]) {
+      cout << -1 << '\n';
       return;
     }
   }
+
+  cout << min_index << '\n';
 }
 
 int main() { 
